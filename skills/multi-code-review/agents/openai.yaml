@@ -1,0 +1,4 @@
+interface:
+  display_name: "multi-code-review"
+  short_description: "Review changes with five specialist agents"
+  default_prompt: "Use $multi-code-review to review this change across all five axes."
