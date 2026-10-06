@@ -5,7 +5,7 @@ Shared agent skills for Claude Code and Codex.
 | Skill | What it does |
 | --- | --- |
 | `multi-code-review` | Pre-merge review by five specialist agents: correctness, readability, architecture, security, performance. |
-| `unslop` | Cuts AI tells from writing. |
+| `unslop` | Rewrites text in Simplified Technical English, based on ASD-STE100, and cuts AI tells. |
 | `teach` | Teaches you a skill or concept inside the current workspace. |
 
 ## Install
