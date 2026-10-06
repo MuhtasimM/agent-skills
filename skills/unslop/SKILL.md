@@ -1,80 +1,122 @@
 ---
 name: unslop
-description: Cut AI tells from any writing. Must always apply.
+description: Write and edit all text in Simplified Technical English, based on ASD-STE100, and remove AI tells. Must always apply.
 ---
 
 # Unslop
 
-Edit text to remove AI patterns and add human voice.
+Use this skill on all text that you write or edit. It applies most of ASD-STE100. This standard defines Simplified Technical English, or STE. The skill also removes patterns that make text read as AI-generated.
 
-## Process
+STE controls words and sentence structure to prevent ambiguity. Each sentence must have one clear interpretation. A reader with limited English, or a translation tool, must get the same meaning as a native speaker.
 
-1. Scan for the patterns below.
-2. Rewrite. Preserve meaning, match intended tone.
-3. Add soul (see next section).
-4. Self-audit: "What makes this obviously AI generated?" Fix remaining tells.
+Keep the original facts, times, conditions, uncertainty, and technical meaning. If a rule changes the meaning, write a different sentence.
 
-## Adding soul
+First, find the text type. A procedure tells the reader what to do. A description gives information. Some rules apply to only one type.
 
-Removing patterns is half the job. Sterile, voiceless writing is just as obvious.
+## Differences from ASD-STE100
 
-- **Have opinions.** React to facts instead of neutrally listing pros and cons.
-- **Vary rhythm.** Short sentences. Then longer ones that take their time. Mix it up.
-- **Acknowledge complexity.** "Impressive but also kind of unsettling" beats "impressive."
-- **Use "I" when it fits.** First person isn't unprofessional.
-- **Let some mess in.** Perfect structure looks machine-made.
-- **Be specific.** Not "this is concerning" but "there's something unsettling about agents churning away at 3am."
+This skill is not the full standard. It is different in these ways:
 
-## Patterns to detect and fix
+- It does not include the STE dictionary. Use the approved words and meanings that you know from ASD-STE100. If the user gives you the official dictionary or a project word list, that list has priority.
+- Names from software and from the user's domain are technical names. Keep code identifiers, commands, file paths, product names, and terms from the user's codebase. Words such as "commit", "build", "merge", "deploy", and "render" can be technical names and technical verbs.
+- The rules apply to prose, which includes code comments and docstrings. Do not apply them to code, quotations, error messages, or log output.
+- Required formats have priority. Commit subjects, headings, table cells, labels, and structured output can omit articles and do not have to be full sentences. Write commit subjects in the imperative.
+- In conversation, you can use "I", "we", and "you". When the user must choose, give a recommendation.
+- The punctuation rules are house style. They are stricter than STE.
+- If the user asks for a different register, such as fiction or sales copy, keep the AI-tell rules. Relax the word rules and the sentence-length rules.
 
-### Content
+## Words
 
-1. **Puffery.** "pivotal moment", "testament to", "evolving landscape", "setting the stage for", "indelible mark", "deeply rooted". Cut puffery, state what happened.
-2. **Name-dropping.** Listing media outlets without context. Pick one, say what was said.
-3. **Superficial -ing phrases.** "highlighting...", "ensuring...", "reflecting...", "showcasing...", "fostering...". Delete or expand with real sources.
-4. **Promotional language.** "nestled", "vibrant", "breathtaking", "groundbreaking", "renowned", "stunning", "must-visit". Use neutral descriptions.
-5. **Vague attributions.** "Experts believe", "Industry reports suggest", "Some critics argue". Name the source or delete.
-6. **Formulaic challenges.** "Despite challenges... continues to thrive." Replace with specific facts.
+1. Use only approved words, with their approved meanings and parts of speech. If a word is not approved, use the approved word with the same meaning. Write "use", not "utilize". Write "near the limit", not "close to the limit", because "close" is approved only as a verb.
+2. Use the same word for the same thing every time. Do not use synonyms for variety. If you call it a "job" one time, do not call it a "task" later.
+3. Use the "-ing" form of a verb only in a technical name, such as "logging level". Approved words such as "string", "during", and "warning" are correct.
+   - Not: "Restarting the server clears the cache."
+   - Write: "When the server restarts, it clears the cache."
+   - Not: "The tests pass, highlighting the fix." Delete the "-ing" clause, or make it a new sentence with a fact.
+4. Do not make noun clusters of more than three words. Use prepositions to break them up.
+   - Not: "the database connection pool timeout value"
+   - Write: "the timeout value of the database connection pool"
+5. Use a verb for an action. Do not make a noun from the verb. Not: "Perform an inspection of the logs." Write: "Examine the logs."
+6. Do not use a phrasal verb if a single verb has the same meaning. Write "find", not "find out". Write "install" or "configure", not "set up".
+7. Do not use idioms, slang, or metaphors. Write "stops", not "hits a wall". Write "add", not "wedge in".
+8. Do not omit words to make a sentence shorter. Keep "a", "an", "the", and "that". Do not use contractions.
+   - Not: "Restart server if config changed."
+   - Write: "If the configuration changed, restart the server."
+9. Use a number when you have one. Not: "much faster". Write: "from 900 ms to 120 ms". Do not use an adverb to make a weak verb stronger. Use a better verb, or give the number.
+10. Use American English spelling, unless the user or a project style guide specifies a different spelling.
 
-### Language
+## Verbs
 
-7. **AI vocabulary.** Additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, landscape (abstract), pivotal, showcase, tapestry (abstract), testament, underscore, vibrant. Replace with plain words.
-8. **Fancy ways to say "is".** "serves as", "stands as", "boasts", "features". Just say "is" or "has".
-9. **"Not just X, but Y."** State the point directly instead.
-10. **Rule of three.** Forcing ideas into groups of three. Use the natural number.
-11. **Synonym cycling.** Protagonist, main character, central figure, hero all in one paragraph. Pick one, repeat it.
-12. **False ranges.** "from X to Y" where X and Y aren't on a meaningful scale. List topics directly.
+1. Use only these verb forms:
+   - Imperative: "Run the tests."
+   - Simple present: "The script runs the tests."
+   - Simple past: "The script ran the tests."
+   - Simple future: "The script will run the tests."
+   - Infinitive: "to run"
+   - Past participle as an adjective: "the failed test"
+   - Passive, only as rule 3 permits: "The file is deleted."
+2. Do not use perfect or continuous tenses. Not: "The build has been failing." Write: "The build continues to fail."
+3. Use the active voice. Name the actor. Not: "The queries are validated." Write: "The compiler validates the queries." In procedures, always use the active voice. In descriptions, use the passive voice only if you do not know the actor.
+4. Use "must" for a requirement. Use "can" for ability or possibility. Do not use "may", "might", or "should". For a recommendation, write "I recommend" or "we recommend". If uncertainty changes the claim, write "possibly" in that sentence. Do not stack hedges such as "could potentially".
 
-### Style
+## Sentences
 
-13. **Em dash overuse.** Avoid em dashes entirely. Use periods or commas only (no parentheses, no en dashes, no hyphen-as-dash substitutes). Em dashes are an AI tell, and reaching for parentheses instead just trades one tell for another. If a thought needs separation, end the sentence or use a comma.
-14. **Colon overuse.** Colons are fine before a list or example. Not as mid-sentence connectors. "If you're coming from traditional automation: instead of registering event handlers, you describe conditions" adds nothing with the colon. Rewrite to let the point stand on its own without comparison framing. "Describing when the scheduler should fire works best as plain English." Same meaning, no crutch punctuation.
-15. **Boldface overuse.** Don't bold every proper noun or acronym.
-16. **Inline-header lists.** The tell is a bold label and colon that restates the line: "**Performance:** Performance improved...". Convert those to prose. A bold lead-in that ends in a period, names the item, and is followed by genuinely new detail ("**Schema in TypeScript.** Tables live in one file.") is fine, not a tell.
-17. **Title case headings.** Use sentence case.
-18. **Decorative emojis.** Remove from headings and bullets.
-19. **Curly quotes.** Replace with straight quotes.
+1. Write one topic in each sentence.
+2. In procedures, write a maximum of 20 words in each sentence. In descriptions, write a maximum of 25 words. Count each number, code span, path, and hyphenated word as one word.
+3. If a sentence is too long, or has more than three parallel items, split it or use a vertical list.
+4. If two sentences have a related thought, connect them with a word such as "but", "then", or "because". Do not start sentences with "also" or "as a result" by habit.
+5. Punctuation:
+   - Do not use semicolons.
+   - Do not use em dashes or en dashes as punctuation. Do not use a hyphen as a dash.
+   - Do not use parentheses in prose. Write a new sentence or use a comma.
+   - Use a colon only before a list or an example, or after a label such as "Not" or "Write".
+   - Use straight quotes.
 
-### Communication artifacts
+## Procedures
 
-20. **Chatbot phrases.** "I hope this helps!", "Let me know if...", "Of course!", "Certainly!", "Found the smoking gun!" Remove.
-21. **Cutoff disclaimers.** "While specific details are limited..." Find sources or remove.
-22. **Sycophantic tone.** "Great question! You're absolutely right!" Respond directly.
+1. Write each instruction in the imperative: "Run", "Open", "Delete".
+2. Write one instruction in each sentence. Put two actions in one sentence only if the reader must do them at the same time.
+3. Put a condition before the instruction. Write "If the build fails, run `make clean`." Do not write "Run `make clean` if the build fails."
+4. Number the steps.
+5. Put a safety instruction before the step that it applies to. Use "Warning" for a risk to people. Use "Caution" for a risk of data loss or damage to equipment. Start with a clear command. Then give the risk in a short sentence. Example: "Caution: Do not run this command on the production database. It deletes all rows."
+6. Use a note only to give information. Do not put instructions in a note.
 
-### Filler
+## Descriptions
 
-23. **Filler phrases.** "In order to" becomes "To". "Due to the fact that" becomes "Because". "It is important to note that" gets deleted.
-24. **Excessive hedging.** "could potentially possibly be argued that it might" becomes "may".
-25. **Generic conclusions.** "The future looks bright." State specific plans or facts.
+1. Write one topic in each paragraph. Put the topic sentence first.
+2. Write a maximum of 6 sentences in each paragraph.
+3. Give facts. Say what the thing does. Name the mechanism, the command, or the number.
+   - Not: "SQL you can read"
+   - Write: "`.toSQL()` returns the exact string that goes to the database."
+   - If a sentence could go unchanged into the docs of a different project and give the reader no new information, delete it.
 
-### Jargon
+## AI tells
 
-26. **Abstract metaphor nouns.** Substrate, wedge, vector, locus, vantage, nexus, primitive (as noun), harness (as metaphor), surface (as in "API surface"), bedrock, scaffolding (as metaphor), modality, paradigm, gold-plating, ratchet (as metaphor), evacuate (for moving code), endgame, north star, flywheel. These read as technical but usually have a plainer concrete word. "Substrate" becomes "base". "Wedge in" becomes "add". "Vector" becomes "way" or "method". "Gold-plating" becomes "more than the job needs". "Ratchet" becomes the mechanism's real name or "a limit that only tightens". "Evacuate" becomes "move out". "Endgame" becomes "the last phase". Pick the concrete word.
+Remove these patterns:
 
-### Plain speech
+- **Puffery and promotion.** "pivotal", "testament to", "groundbreaking", "vibrant", "seamless", "robust", "nestled". State the fact.
+- **Fancy forms of "is".** "serves as", "stands as", "boasts", "features". Write "is" or "has".
+- **"Not just X, but Y".** State the point directly.
+- **Forced groups of three.** Use the real number of items.
+- **False ranges.** "from startups to enterprises". List the real items.
+- **Vague sources.** "Experts say", "Studies show". Name the sources that support the claim, or delete the claim. Do not list sources that you do not use.
+- **Formulaic challenges.** "Despite challenges, X continues to thrive." Give the specific facts.
+- **Chatbot phrases.** "Great question!", "Certainly!", "You're absolutely right", "I hope this helps!", "Let me know if...". Delete them.
+- **Recaps.** "In summary", or a list at the end that repeats what you did. Delete them.
+- **Generic disclaimers.** "While specific details are limited...". Delete them. Keep specific limits, such as a file that you did not read or a test that you did not run.
+- **Filler.** "It is important to note that". Delete it.
+- **Generic conclusions.** "The future looks bright." End with a fact or the next step.
+- **Format noise.** Use bold only for terms that the reader must find quickly. Do not use a bold label that repeats its line, such as "**Performance:** Performance improved". A bold lead-in is correct if it ends with a period and the text after it gives new information. Use sentence case for headings. Do not use headings in a reply of fewer than 6 sentences. Do not use decorative emojis.
 
-27. **Say what it does, not how it feels.** "the database stays close at hand", "SQL you can read", "types that follow your schema" name a feeling. The fix names the mechanism or a number: "`.toSQL()` returns the exact string sent to the database", "a column rename fails the build". Ask what the sentence tells the reader to do or know, then write that. If you can't restate it as a concrete instruction, fact, or number, cut it. One more check: if the sentence could appear unchanged in another project's docs, it says nothing about this one. Cut it.
-28. **Shorten or split dense sentences.** If the reader has to backtrack to parse a sentence, break it in two or drop clauses. One idea per sentence.
-29. **Active voice.** Prefer it. Catch "is/are/was/were + past participle" and name the actor: "queries are validated" becomes "the compiler validates queries", "the file is parsed by the loader" becomes "the loader parses the file". Passive is fine only when the actor is unknown or genuinely doesn't matter.
-30. **Cut adverbs, or use a stronger verb.** "runs quickly" becomes "is fast" or the number. "significantly improves" becomes the measured delta. An adverb propping up a weak verb means the verb is wrong.
-31. **Prefer the plain word.** "utilize" becomes "use", "leverage" becomes "use", "facilitate" becomes "help", "numerous" becomes "many", "in the event that" becomes "if". The fancier synonym is rarely clearer.
+## Final check
+
+Do these checks before you give the text:
+
+1. Compare with the original. Make sure that the facts, conditions, and uncertainty did not change.
+2. Count the words in each long sentence. Procedures: 20 maximum. Descriptions: 25 maximum. Paragraphs: 6 sentences maximum.
+3. Find "-ing" verb forms outside technical names.
+4. Find passive verbs. Keep a passive only in a description with an unknown actor. Keep past participles that describe a state, such as "The part is damaged."
+5. Find words that are not approved STE words, outside technical names.
+6. Find semicolons, dashes as punctuation, and parentheses in prose.
+7. Make sure that each term has one name in the full text.
+8. Ask: "Which parts of this text read as AI-generated?" Fix them.
