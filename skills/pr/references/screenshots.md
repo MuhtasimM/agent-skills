@@ -19,17 +19,17 @@ When the app cannot run (missing services, auth you don't have), say so under "N
 
 ## Write the body
 
-Name files `before.png`, `after.png`, `before-mobile.png`, and so on, and reference them relative to the body file:
+Name files `before.png`, `after.png`, `before-mobile.png`, and so on, and reference each one by the same absolute path you will pass to `--attach`:
 
 ```markdown
 ## Evidence
 
 | Before | After |
 | --- | --- |
-| ![Settings page before: save button below the fold](./before.png) | ![Settings page after: save button pinned to the footer](./after.png) |
+| ![Settings page before: save button below the fold](/tmp/pr-<branch>/before.png) | ![Settings page after: save button pinned to the footer](/tmp/pr-<branch>/after.png) |
 ```
 
-Alt text says what the image shows. Put a video on its own line (`![](./flow.mp4)`); GitHub renders it as a player.
+Alt text says what the image shows. Put a video on its own line (`![](/tmp/pr-<branch>/flow.mp4)`); GitHub renders it as a player.
 
 ## Upload
 
@@ -43,10 +43,10 @@ gh pr edit <number> --body-file /tmp/pr-<branch>/body.md \
   --attach /tmp/pr-<branch>/before.png --attach /tmp/pr-<branch>/after.png
 ```
 
-`gh` resolves `./before.png` against the body file's folder, uploads the file, and rewrites the reference to a `github.com/user-attachments` URL. A file attached but not referenced is appended to the end of the body.
+`gh` uploads each file and rewrites the matching reference to a `github.com/user-attachments` URL. It matches by absolute path. A relative `./before.png` resolves against the body file's folder only from gh 2.103; on 2.99–2.102 it resolves against the working directory, misses, and the image is appended to the end of the body while the table keeps a broken local link. Absolute paths work on every version.
 
 If some uploads fail, `gh` still creates or updates the PR with the ones that worked and exits non-zero. Re-run `gh pr edit` with only the failed files.
 
-Then check the result: `gh pr view <number> --json body --jq .body` should show `user-attachments` URLs and no `./` image paths.
+Then check the result: `gh pr view <number> --json body --jq .body` should show `user-attachments` URLs where the local paths were, and no `/tmp/` paths or images appended at the end. If a reference was missed, replace it with the appended URL by hand and `gh pr edit --body-file` without `--attach`, so nothing uploads twice.
 
 With `gh` older than 2.99, tell the user and describe the visual change in words under Evidence; leave the images out of the branch.
