@@ -5,6 +5,7 @@ Shared agent skills for Claude Code and Codex.
 | Skill | What it does |
 | --- | --- |
 | `multi-code-review` | Pre-merge review by five specialist agents: correctness, readability, architecture, security, performance. In T3 Code it runs them on Claude Opus 5.5 (Claude subscription), GPT-6.1 Sol (Codex subscription), or both, at high effort. |
+| `council` | Say 'council' for review or feedback from Claude Opus 5.5 and GPT-6.1 Sol delegates, repeated until both are satisfied. |
 
 ## Install
 

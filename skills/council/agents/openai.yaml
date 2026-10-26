@@ -1,0 +1,4 @@
+interface:
+  display_name: "council"
+  short_description: "Review with Claude Opus and GPT Sol delegates"
+  default_prompt: "Use $council to review this change."
