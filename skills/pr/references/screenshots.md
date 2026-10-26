@@ -4,7 +4,9 @@ Read this when the diff changes something a user sees: components, styles, templ
 
 ## Capture
 
-Use whatever browser tool the environment has: Playwright (`npx playwright screenshot --viewport-size "1280, 800" <url> <file>`), agent-browser, a Chrome or browser MCP, or T3 Code's preview tools.
+Use whatever browser tool the environment has: Playwright (`npx playwright screenshot --viewport-size=1280,800 <url> <file>`), agent-browser, a Chrome or browser MCP, or T3 Code's preview tools.
+
+If Playwright reports that its browser executable doesn't exist, add `--channel=chrome` to use the installed Google Chrome instead of downloading one.
 
 1. Make a working folder outside the repo, `/tmp/pr-<branch>/`. The body file and every capture go here, so nothing lands in the branch.
 2. **After:** run the app from the PR branch and capture the changed screen.
