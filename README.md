@@ -4,7 +4,7 @@ Shared agent skills for Claude Code and Codex.
 
 | Skill | What it does |
 | --- | --- |
-| `multi-code-review` | Pre-merge review by five specialist agents: correctness, readability, architecture, security, performance. |
+| `multi-code-review` | Pre-merge review by five specialist agents: correctness, readability, architecture, security, performance. In T3 Code it runs them on Claude Opus 5.5 (Claude subscription), GPT-6.1 Sol (Codex subscription), or both, at high effort. |
 | `unslop` | Cuts AI tells from writing. |
 | `teach` | Teaches you a skill or concept inside the current workspace. |
 

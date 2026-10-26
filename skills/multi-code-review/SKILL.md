@@ -27,9 +27,16 @@ This skill coordinates review only. Do not edit code, post comments, merge, or p
 
 Do not paste a large diff into every prompt when agents share the filesystem. Give exact commands or paths that reproduce the same review scope.
 
-## Spawn five specialist agents
+## Choose the reviewer models
 
-Spawn exactly five sub-agents, one for each axis:
+Check whether you are running inside T3 Code. The sign is a T3 `orchestrator_capabilities` tool (often named `mcp__t3-code__orchestrator_capabilities`). It may be deferred or load late, so search for it once before you treat it as absent. A set `T3CODE_CLI_PATH` environment variable is a supporting hint.
+
+- **Inside T3 Code:** read [references/t3-code-reviewers.md](references/t3-code-reviewers.md) completely and follow it to check subscriptions and launch reviewers. A Claude subscription runs the reviewers on Claude Opus 5.5 at high effort. A Codex subscription runs them on GPT-6.1 Sol at high reasoning effort. With both, every axis gets one reviewer on each model.
+- **Outside T3 Code:** run the reviewers as native subagents in the current runtime. Where the runtime lets you set reasoning effort, set it to high.
+
+## Spawn five specialist agents per model
+
+Spawn exactly five sub-agents for each reviewer model, one for each axis:
 
 1. `correctness-reviewer`
 2. `readability-reviewer`
@@ -39,7 +46,7 @@ Spawn exactly five sub-agents, one for each axis:
 
 Start them independently with the same review packet and the axis-specific instructions from the reference. Tell the security reviewer to read `references/security-checklist.md` and the performance reviewer to read `references/performance-checklist.md`. Tell each agent to inspect only its assigned axis, remain read-only, and report only actionable findings supported by the diff or repository evidence.
 
-Spawn all five even when one axis seems unlikely to produce findings. If the runtime cannot run five reviewers at once, preserve five distinct agents and launch the remaining agents as slots become available. Never combine two axes into one agent to fit a concurrency limit.
+Spawn all five even when one axis seems unlikely to produce findings. With two reviewer models, that is ten agents: two per axis. If the runtime cannot run them all at once, keep every reviewer distinct and launch the remaining agents as slots become available. Never combine two axes or two models into one agent to fit a concurrency limit.
 
 Each agent must return:
 
@@ -74,10 +81,10 @@ Do not accept vague concerns, speculative failures without a plausible path, or 
 
 ## Synthesize the independent reviews
 
-Wait for all five agents. Then verify their claims against the code before including them.
+Wait for every reviewer. Then verify their claims against the code before including them.
 
-1. Remove duplicates. Keep the clearest location and strongest evidence, and mention affected axes when useful.
-2. Resolve disagreements with repository evidence, tests, specifications, and project conventions. Do not decide by vote.
+1. Remove duplicates, including the same finding from both models on one axis. Keep the clearest location and strongest evidence, and mention affected axes when useful.
+2. Resolve disagreements, including disagreements between the two models, with repository evidence, tests, specifications, and project conventions. Do not decide by vote. When both models independently raise a finding, count it as supporting evidence, then verify it. A finding raised by only one model still gets the full check.
 3. Reclassify severity when the claimed impact does not match the definitions.
 4. Separate pre-existing problems from regressions introduced by the reviewed change. Report pre-existing issues as non-blocking context unless the change makes them worse.
 5. Identify unverified areas. Missing evidence is not proof that the change is safe.
@@ -108,6 +115,7 @@ Approve | Request changes | Unable to verify
 
 ## Verification
 
+- Reviewer models that ran, with provider and effort, and any axis-model pair that failed or was skipped
 - Checks completed and their results
 - Checks not completed and why
 ```
