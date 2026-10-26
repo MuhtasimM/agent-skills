@@ -29,6 +29,8 @@ Name files `before.png`, `after.png`, `before-mobile.png`, and so on, and refere
 | ![Settings page before: save button below the fold](/tmp/pr-<branch>/before.png) | ![Settings page after: save button pinned to the footer](/tmp/pr-<branch>/after.png) |
 ```
 
+Each row is one before/after pair at one width. Add a row for the mobile pair rather than a column: GitHub vertically centers the shorter image in a row, so mixing widths in one row leaves a large gap above the shorter one.
+
 Alt text says what the image shows. Put a video on its own line (`![](/tmp/pr-<branch>/flow.mp4)`); GitHub renders it as a player.
 
 ## Upload
