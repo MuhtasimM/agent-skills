@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Install the skills in this repo for Claude Code and Codex.
 #
-#   ./install.sh                 symlink every skill into ~/.claude/skills and ~/.codex/skills
-#   ./install.sh unslop teach    install only the named skills
-#   ./install.sh --copy          copy instead of symlink
-#   ./install.sh --uninstall     remove links/copies this script created
+#   ./install.sh                    symlink every skill into ~/.claude/skills and ~/.codex/skills
+#   ./install.sh multi-code-review  install only the named skills
+#   ./install.sh --copy             copy instead of symlink
+#   ./install.sh --uninstall        remove links/copies this script created
 #
 # Can also be piped from curl, in which case the repo is cloned to
 # $AGENT_SKILLS_HOME (default ~/.agent-skills) first:
